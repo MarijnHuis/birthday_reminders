@@ -1,7 +1,6 @@
 import os
 from datetime import datetime, timedelta
 
-import numpy as np
 import pandas as pd
 
 
@@ -10,6 +9,14 @@ def get_names_string(df: pd.DataFrame):
     if len(df["name"].values) >= 2:
         names_str = " and".join(names_str.rsplit(",", 1))
     return names_str
+
+
+def calculate_dates(original_date):
+    now = datetime.now()
+    delta1 = datetime(now.year, original_date.month, original_date.day)
+    delta2 = datetime(now.year + 1, original_date.month, original_date.day)
+
+    return ((delta1 if delta1 > now else delta2) - now).days + 1
 
 
 def main():
@@ -26,6 +33,9 @@ def main():
     bdays["birthday_date_1"] = bdays["birthday"] - timedelta(days=1)
     bdays["birthday_date_7"] = bdays["birthday_date_7"].dt.strftime("%m-%d")
     bdays["birthday_date_1"] = bdays["birthday_date_1"].dt.strftime("%m-%d")
+    bdays["days_until_bday"] = bdays.apply(
+        lambda bdays: calculate_dates(bdays["birthday"]), axis=1
+    )
 
     reminders = pd.read_csv(
         os.path.join(os.path.dirname(__file__), "src", "birthdays.csv"),
@@ -71,5 +81,4 @@ def main():
 
 
 if __name__ == "__main__":
-    print(__file__)
     main()
