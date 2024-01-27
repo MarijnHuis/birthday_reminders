@@ -66,15 +66,15 @@ def main():
     )
 
     for index, row in reminders.iterrows():
-        if row["7_before"]:
+        if row["7_before"] and not remind_7_df.empty:
             print(
                 f"Send email to {row['name']}, {row['email']}, with 7 day reminder for {get_names_string(remind_7_df)}"
             )
-        if row["1_before"]:
+        if row["1_before"] and not remind_1_df.empty:
             print(
                 f"Send email to {row['name']}, {row['email']}, with 1 day reminder for {get_names_string(remind_1_df)}"
             )
-        if row["0_before"]:
+        if row["0_before"] and not remind_0_df.empty:
             print(
                 f"Send email to {row['name']}, {row['email']}, with 0 day reminder for {get_names_string(remind_0_df)}"
             )
