@@ -1,19 +1,21 @@
-import smtplib, ssl
-from email.mime.text import MIMEText
+import smtplib
+import ssl
 from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 sender_email = "t7133657@gmail.com"
 receiver_email = ["t7133657@gmail.com"]
-password = "jwmo yrmh kafo wjns"
+password = "jwmo yrmh kafo wjns "
+cc = ["marijn2huis@gmail.com"]
 # cc = ['marijn2huis@gmail.com', 'pimduif@gmail.com', 't7133657@gmail.com']
 
 message = MIMEMultipart("alternative")
 message["Subject"] = "Birthday Message"
 message["From"] = sender_email
-message["To"] = ','.join(receiver_email)
-# message['Cc'] = ','.join(cc)
+message["To"] = ",".join(receiver_email)
+message["Cc"] = ",".join(cc)
 
-placeholder = 'ronald'
+placeholder = "ronald"
 # Create the plain-text and HTML version of your message
 text = """\
 Hi Big T,
@@ -59,9 +61,9 @@ message.attach(part1)
 message.attach(part2)
 
 # creates SMTP session, start TLS for securty and authenticate
-server = smtplib.SMTP('smtp.gmail.com', 587)
+server = smtplib.SMTP("smtp.gmail.com", 587)
 server.starttls()
 server.login(sender_email, password)
 # sending the mail and terminate the session
-server.sendmail(sender_email, receiver_email, message.as_string())
+server.sendmail(sender_email, receiver_email + cc, message.as_string())
 server.quit()
