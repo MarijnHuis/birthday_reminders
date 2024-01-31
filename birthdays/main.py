@@ -38,8 +38,8 @@ def main():
     )
 
     bdays = bdays.sort_values("days_until_bday")
-
-    html_body = email_util.get_all_bdays_email_body(bdays)
+    
+    html_body = email_util.get_all_bdays_email_body_v2(bdays)
 
     email_util.sending_email(html=html_body)
 
