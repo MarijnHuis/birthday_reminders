@@ -59,15 +59,12 @@ def sending_email(html: str):
     message["To"] = ",".join(receiver_email)
     message["Cc"] = ",".join(cc)
 
-    # Turn these into plain/html MIMEText objects
     body = MIMEText(html, "html")
 
     message.attach(body)
 
-    # creates SMTP session, start TLS for securty and authenticate
     server = smtplib.SMTP("smtp.gmail.com", 587)
     server.starttls()
     server.login(sender_email, password)
-    # sending the mail and terminate the session
     server.sendmail(sender_email, receiver_email + cc, message.as_string())
     server.quit()

@@ -5,13 +5,6 @@ import email_util
 import pandas as pd
 
 
-def get_names_string(df: pd.DataFrame):
-    names_str = ", ".join([x for x in df["name"].values])
-    if len(df["name"].values) >= 2:
-        names_str = " and".join(names_str.rsplit(",", 1))
-    return names_str
-
-
 def calculate_days_until_bday(original_date: datetime):
     now = datetime.now()
     # check if birthday is today
