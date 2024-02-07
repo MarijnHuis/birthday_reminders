@@ -161,3 +161,4 @@ cython_debug/
 birthdays/advanced_mail_html.py
 birthdays/birthdays_pim.ipynb
 birthdays/birthdays_pim.ipynb
+.vscode/launch.json

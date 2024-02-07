@@ -14,6 +14,8 @@ def calculate_days_until_bday(original_date: datetime):
     delta1 = datetime(now.year, original_date.month, original_date.day)
     delta2 = datetime(now.year + 1, original_date.month, original_date.day)
 
+    pass
+
     return ((delta1 if delta1 > now else delta2) - now).days + 1
 
 
@@ -31,7 +33,7 @@ def main():
     )
 
     bdays = bdays.sort_values("days_until_bday")
-    
+
     html_body = email_util.get_all_bdays_email_body_v2(bdays)
 
     email_util.sending_email(html=html_body)

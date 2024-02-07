@@ -1,9 +1,13 @@
-import pandas as pd
+import os
 
-with open('birthdays/birthday_mail.html') as f:
+import pandas as pd
+from dotenv import load_dotenv
+
+load_dotenv()
+
+with open("birthdays/birthday_mail.html") as f:
     html = f.readlines()
-raw_body = '\n'.join(html)    
-print(raw_body)
+raw_body = "\n".join(html)
 
 
 def get_all_bdays_email_body(bdays: pd.DataFrame, raw_body: str = raw_body):
@@ -37,9 +41,10 @@ def get_all_bdays_email_body_v2(bdays: pd.DataFrame, raw_body: str = raw_body):
             </td>
         </tr>
         """
-            
+
     email_html = raw_body.replace("<!--TABLEDATA-->", bdays_table_content)
     return email_html
+
 
 def sending_email(html: str):
     import smtplib
@@ -49,9 +54,8 @@ def sending_email(html: str):
 
     sender_email = "t7133657@gmail.com"
     receiver_email = ["t7133657@gmail.com"]
-    password = "jwmo yrmh kafo wjns "
+    password = os.getenv("GMAIL_SECRET_KEY")
     cc = ["marijn2huis@gmail.com", "pimduif@gmail.com", "t7133657@gmail.com"]
-
 
     message = MIMEMultipart("alternative")
     message["Subject"] = "Birthday Message"
