@@ -1,17 +1,35 @@
 import os
 import pandas as pd
 
-def get_all_bdays_email_body_day(bdays, days: int, bday_boy: list):
+def get_all_bdays_email_body(bdays, days: int, bday_boy: list):
     with open("birthdays/templates/template_0day.html") as f:
         html = f.readlines()
     raw_body = "\n".join(html)
 
-    if days == 0:
-        email_message = f"Boys, {bday_boy} is vandaag jarig. "
-    elif days == 1:
-        email_message = f"Boys, {bday_boy} is over {days} dag jarig. "
-    elif days == 7:
-        email_message = f"Boys, {bday_boy} is over {days} dagen jarig. "
+    #i'm not sure how to do this in a smart way...
+    if len(bday_boy) == 1:
+        if days == 0:
+            email_message = f"Boys, {bday_boy[0]} is vandaag jarig. "
+        elif days == 1:
+            email_message = f"Boys, {bday_boy[0]} is over {days} dag jarig. "
+        elif days == 7:
+            email_message = f"Boys, {bday_boy[0]} is over {days} dagen jarig. "
+        else:
+            exit()
+
+    elif len(bday_boy) >= 1:
+        bday_boys = bday_boy[0]
+        for i in bday_boy[1:]:
+            bday_boys += ' and ' + i 
+        if days == 0:
+            email_message = f"Boys, {bday_boys} zijn vandaag jarig. "
+        elif days == 1:
+            email_message = f"Boys, {bday_boys} zijn over {days} dag jarig. "
+        elif days == 7:
+            email_message = f"Boys, {bday_boys} zijn over {days} dagen jarig. "
+        else:
+            exit()
+    
     else:
         exit()
 
