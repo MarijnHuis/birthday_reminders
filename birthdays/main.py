@@ -38,10 +38,11 @@ def main():
             html_body = email_util.get_all_bdays_email_body(bdays, days = i, bday_boy=bday_boy)
             email_util.sending_email(html=html_body, email_list=[x for x in email_list_reduced if str(x) != 'nan'])
     
-    if datetime.now().day == 1:
-        email_list_month = bdays['email'].to_list()
-        html_body_month = email_util.get_all_bdays_email_body_month(bdays)
-        email_util.sending_email(html=html_body_month, email_list=email_list_month)
+    # if datetime.now().day == 1:
+    email_list_month = bdays['email'].to_list()
+    html_body_month = email_util.get_all_bdays_email_body_month(bdays)
+    email_list_reduced = [x for x in email_list_month if str(x) != 'nan']
+    email_util.sending_email(html=html_body_month, email_list=email_list_reduced)
    
 if __name__ == "__main__":
     main()
