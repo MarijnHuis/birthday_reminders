@@ -1,31 +1,31 @@
 import os
-
 import pandas as pd
-from dotenv import load_dotenv
 
-load_dotenv()
+def get_all_bdays_email_body(bdays, days: int, bday_boy: list):
+    with open("birthdays/templates/template_0day.html") as f:
+        html = f.readlines()
+    raw_body = "\n".join(html)
 
-with open("birthdays/birthday_mail.html") as f:
-    html = f.readlines()
-raw_body = "\n".join(html)
+    dict_days =  {0 : 'vandaag',
+                    1 : 'over 1 dag',
+                    7 : 'over 7 dagen'}
+    
+    if len(bday_boy) == 1:
+        email_message = f"Boys, {bday_boy[0]} is {dict_days[days]} jarig."
+    
+    elif len(bday_boy) > 1:
+        bday_string = ' & '.join(filter(None, [', '.join(bday_boy[:-1])] + bday_boy[-1:]))
+        email_message = f"Boys, {bday_string} zijn {dict_days[days]} jarig."
 
-
-def get_all_bdays_email_body(bdays: pd.DataFrame, raw_body: str = raw_body):
-    bdays_table_content = ""
-    for _, row in bdays.iterrows():
-        bdays_table_content += f"""\
-        <tr>
-            <td>{row["name"]}</td>
-            <td>{row["birthday_date"]}</td>
-            <td>{row["days_until_bday"]}</td>
-        </tr>
-        """
-
-    email_html = raw_body.replace("$$TABLE_CONTENT$$", bdays_table_content)
+    email_html = raw_body.replace("<!--TABLEDATA-->", email_message)
     return email_html
 
+def get_all_bdays_email_body_month(bdays: pd.DataFrame):
+    
+    with open("birthdays/birthday_mail.html") as f:
+        html = f.readlines()
+    raw_body = "\n".join(html)
 
-def get_all_bdays_email_body_v2(bdays: pd.DataFrame, raw_body: str = raw_body):
     bdays_table_content = ""
     for _, row in bdays.iterrows():
         bdays_table_content += f"""\
@@ -46,22 +46,23 @@ def get_all_bdays_email_body_v2(bdays: pd.DataFrame, raw_body: str = raw_body):
     return email_html
 
 
-def sending_email(html: str):
+def sending_email(html: str, email_list: list):
     import smtplib
     import ssl
     from email.mime.multipart import MIMEMultipart
     from email.mime.text import MIMEText
 
     sender_email = "t7133657@gmail.com"
-    receiver_email = ["t7133657@gmail.com"]
-    password = os.getenv("GMAIL_SECRET_KEY")
-    cc = ["marijn2huis@gmail.com", "pimduif@gmail.com", "t7133657@gmail.com"]
-
+    receiver_email = email_list
+    password = "ubij cyhq iqob ntss"
+    # cc = ["marijn2huis@gmail.com", "pimduif@gmail.com", "t7133657@gmail.com"]
+    # cc = []
+    
     message = MIMEMultipart("alternative")
     message["Subject"] = "Birthday Message"
     message["From"] = sender_email
     message["To"] = ",".join(receiver_email)
-    message["Cc"] = ",".join(cc)
+    # message["Cc"] = ",".join(cc)
 
     body = MIMEText(html, "html")
 
@@ -70,5 +71,5 @@ def sending_email(html: str):
     server = smtplib.SMTP("smtp.gmail.com", 587)
     server.starttls()
     server.login(sender_email, password)
-    server.sendmail(sender_email, receiver_email + cc, message.as_string())
+    server.sendmail(sender_email, receiver_email, message.as_string())
     server.quit()
