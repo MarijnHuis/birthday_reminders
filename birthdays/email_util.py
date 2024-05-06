@@ -1,8 +1,10 @@
 import os
 import pandas as pd
+from dotenv import load_dotenv
+load_dotenv()
 
 def get_all_bdays_email_body(bdays, days: int, bday_boy: list):
-    with open("birthdays/templates/template_0day.html") as f:
+    with open(os.path.join(os.path.dirname(__file__), "templates", "template_day.html")) as f:
         html = f.readlines()
     raw_body = "\n".join(html)
 
@@ -22,7 +24,7 @@ def get_all_bdays_email_body(bdays, days: int, bday_boy: list):
 
 def get_all_bdays_email_body_month(bdays: pd.DataFrame):
     
-    with open("birthdays/birthday_mail.html") as f:
+    with open(os.path.join(os.path.dirname(__file__), "templates", "template_month.html")) as f:
         html = f.readlines()
     raw_body = "\n".join(html)
 
@@ -54,15 +56,13 @@ def sending_email(html: str, email_list: list):
 
     sender_email = "t7133657@gmail.com"
     receiver_email = email_list
-    password = "ubij cyhq iqob ntss"
+    password = os.getenv("GMAIL_SECRET_KEY")
     # cc = ["marijn2huis@gmail.com", "pimduif@gmail.com", "t7133657@gmail.com"]
-    # cc = []
     
     message = MIMEMultipart("alternative")
     message["Subject"] = "Birthday Message"
     message["From"] = sender_email
     message["To"] = ",".join(receiver_email)
-    # message["Cc"] = ",".join(cc)
 
     body = MIMEText(html, "html")
 
