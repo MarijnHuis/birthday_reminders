@@ -163,4 +163,6 @@ birthdays/birthdays_pim.ipynb
 birthdays/birthdays_pim.ipynb
 .vscode/launch.json
 
+birthdays/data/birthdays.csv
+
 .DS_Store
