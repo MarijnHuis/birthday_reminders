@@ -57,7 +57,6 @@ def sending_email(html: str, email_list: list):
     sender_email = "t7133657@gmail.com"
     receiver_email = email_list
     password = os.getenv("GMAIL_SECRET_KEY")
-    # cc = ["marijn2huis@gmail.com", "pimduif@gmail.com", "t7133657@gmail.com"]
     
     message = MIMEMultipart("alternative")
     message["Subject"] = "Birthday Message"
