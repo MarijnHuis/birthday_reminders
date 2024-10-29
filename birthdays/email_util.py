@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def get_all_bdays_email_body(bdays, days: int, bday_boy: list):
-    with open(os.path.join(os.path.dirname(__file__), "templates", "template_day.html")) as f:
+    with open(os.path.join(os.path.dirname(__file__), "templates", "template_day_2.html")) as f:
         html = f.readlines()
     raw_body = "\n".join(html)
 
@@ -13,11 +13,11 @@ def get_all_bdays_email_body(bdays, days: int, bday_boy: list):
                     7 : 'over 7 dagen'}
     
     if len(bday_boy) == 1:
-        email_message = f"Boys, {bday_boy[0]} is {dict_days[days]} jarig."
+        email_message = f"{bday_boy[0]} is {dict_days[days]} jarig."
     
     elif len(bday_boy) > 1:
         bday_string = ' & '.join(filter(None, [', '.join(bday_boy[:-1])] + bday_boy[-1:]))
-        email_message = f"Boys, {bday_string} zijn {dict_days[days]} jarig."
+        email_message = f"{bday_string} zijn {dict_days[days]} jarig."
 
     email_html = raw_body.replace("<!--TABLEDATA-->", email_message)
     return email_html
